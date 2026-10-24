@@ -1,73 +1,46 @@
-# MoMo Transaction Claims Resolution Agent
-## Proposed Agent Architecture
+flowchart TB
+    subgraph TOP[" "]
+        direction LR
+        TR["TRIGGERS<br/>New transaction claim"]
+        CH["CHANNELS<br/>Internal staff interface"]
+        HO["HANDOFF<br/>Escalation · Human approval · Named owner"]
+    end
 
-### 1. Triggers
-- A new transaction claim is submitted by a MoMo user.
-- The claim is recorded in MoMo's authorised case-management system.
+    subgraph HARNESS["THE HARNESS"]
+        direction TB
+        subgraph UPPER[" "]
+            direction LR
+            INS["INSTRUCTIONS<br/>Complaint-handling rules<br/>Scope · Permissions · Escalation"]
+            LOOP["MODEL REASONING<br/>Perceive → Plan and decide<br/>Act → Observe<br/>Repeat as needed"]
+            KNOW["KNOWLEDGE AND GROUNDING<br/>Approved procedures<br/>Transaction-status rules"]
+        end
 
-### 2. Channels
-- Internal case-management interface for MoMo support and operations staff.
-- Staff review and escalation interface.
+        subgraph LOWER[" "]
+            direction LR
+            MEM["MEMORY AND CONTEXT<br/>Claim ID · Checks completed<br/>Case status · Missing evidence"]
+            TOOLS["TOOLS AND ACTIONS<br/>Retrieve authorised records<br/>Reconcile data · Summarise evidence<br/>Update case · Route claim"]
+        end
+    end
 
-### 3. Handoff
-- Escalate conflicting transaction records, suspected fraud, and complex disputes to authorised staff.
-- Human approval is required for refunds, compensation, and financial-liability decisions.
-- Each escalated case must have a clearly assigned responsible team or staff member.
+    DATA["SYSTEMS OF RECORD AND DATA<br/>Authorised transaction records · Case-management system<br/>Bank or service-provider confirmations where access is approved"]
 
----
+    GOV["HUMAN OVERSIGHT · EVALUATION · OBSERVABILITY<br/>Human approval for refunds and complex disputes · Action logs · Accuracy monitoring"]
 
-## The Harness
+    TOP --> HARNESS
+    HARNESS --> DATA
+    DATA --> GOV
 
-### Instructions
-- Investigate transaction claims within the agent's approved scope.
-- Follow MoMo's authorised complaint-handling procedures.
-- Do not invent missing transaction information or promise unverified outcomes.
-- Do not independently approve or execute refunds or compensation.
-- Escalate cases that require human judgement or exceed the agent's permissions.
-
-### Memory and Context
-- Maintain the current claim ID and relevant transaction details during investigation.
-- Track which checks have been completed and what information remains missing.
-- Record the current case status and previous investigation actions.
-- Retain only necessary information under approved data-retention policies.
-
-### Knowledge and Grounding
-- MoMo's approved complaint-handling procedures.
-- Official transaction-status definitions and investigation rules.
-- Approved guidance for common transaction discrepancies.
-- Authorised transaction records and relevant case history, subject to access permissions.
-
-### Tools and Actions
-- Retrieve permitted transaction records through approved APIs.
-- Compare available transaction references, timestamps, amounts, and statuses.
-- Classify claims and prepare evidence summaries.
-- Update case status where authorised.
-- Route unresolved or complex cases to the responsible staff team.
-- Draft user updates based on verified information.
-
-### Agent Loop — Model Reasoning
-1. **Perceive:** Interpret the claim and available transaction evidence.
-2. **Plan and decide:** Identify the next investigation step and whether more evidence is needed.
-3. **Act:** Use authorised tools to retrieve or compare records and update the case.
-4. **Observe:** Check the outcome and determine whether to continue investigating, complete the permitted task, or escalate to a human.
-
-The loop may repeat until the claim is sufficiently investigated or requires human intervention.
-
----
-
-### Systems of Record and Data
-- Authorised transaction records.
-- Complaint and case-management records.
-- Approved case-status history.
-- Relevant bank or service-provider confirmations, only where authorised integrations are available.
-
-### Human Oversight, Evaluation and Observability
-- Human review for complex disputes, suspected fraud, and refund or compensation decisions.
-- Logging of data access, tool calls, case updates, and escalation reasons.
-- Evaluation of evidence accuracy, classification quality, escalation appropriateness, and processing time.
-- Access controls, privacy safeguards, and monitoring for errors or unauthorised actions.
-
----
-
-## Proposed Scope and Limitations
-This architecture is a proposed design, not a claim that all required integrations currently exist at MoMo. Implementation depends on approved system access, data availability, and agreements with relevant third parties.
+    style TOP fill:#ffffff,stroke:#ffffff
+    style HARNESS fill:#f8f7f4,stroke:#e60023,stroke-width:2px
+    style UPPER fill:#ffffff,stroke:#ffffff
+    style LOWER fill:#ffffff,stroke:#ffffff
+    style TR fill:#20205e,color:#ffffff,stroke:#20205e
+    style CH fill:#20205e,color:#ffffff,stroke:#20205e
+    style HO fill:#20205e,color:#ffffff,stroke:#20205e
+    style INS fill:#ffffff,color:#171747,stroke:#b8b8cc
+    style LOOP fill:#ffffff,color:#171747,stroke:#e60023,stroke-width:2px
+    style KNOW fill:#ffffff,color:#171747,stroke:#b8b8cc
+    style MEM fill:#ffffff,color:#171747,stroke:#b8b8cc
+    style TOOLS fill:#ffffff,color:#171747,stroke:#b8b8cc
+    style DATA fill:#20205e,color:#ffffff,stroke:#20205e
+    style GOV fill:#fff0b3,color:#171747,stroke:#e0ad00,stroke-width:2px
